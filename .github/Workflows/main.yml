@@ -1,0 +1,13 @@
+on: [push]
+
+jobs:
+  List-Branches:
+    runs-on: ubuntu-latest
+    name: Job para listar Branches de repositório GitHub
+    steps:
+      - name: Listar Branches action step
+        id: list
+        uses: geovanams/list-branchs-action@v1
+        with:
+          owner: 'geovanams'
+          repos: 'list-branchs-action'
