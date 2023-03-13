@@ -7,8 +7,6 @@ r=requests.get("https://api.github.com/repos/"+sys.argv[1]+"/"+sys.argv[2]+"/bra
 
 objeto = json.loads(r.text)
 
-print("\n"+sys.argv[2]+ " repo branches:")
 print("\n Lista de branchs do repositório "+sys.argv[2]+ " :")
 for v in objeto:
-    print(v)
     print(v['name'])
