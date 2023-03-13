@@ -1,0 +1,16 @@
+# action.yml
+name: 'List Branchs Action'
+description: 'Lista branchs de um repositório público'
+inputs:
+  owner:  # id do input
+    description: 'sua organização ou usuário github'
+    required: true
+  repos: # id do input
+    description: 'nome do repositório' # que possui as branchs a serem listadas
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.owner }}
+    - ${{ inputs.repos }}    
