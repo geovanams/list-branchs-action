@@ -200,6 +200,8 @@ Após salvar o arquivo no repositório, o github já iniciará o workflow. Na ab
 
 [image]
 
+<img width="1400" alt="imgarticle" src="https://user-images.githubusercontent.com/50850895/225105797-c5554081-bc36-4424-9fc0-fcbe05c58342.png">
+
 Note que temos 2 steps principais:
 
 **Build geovanams/actionteste@master:** que ao definirmos que nossa action utilizaria a imagem a partir do dockerfile, o github adicionou esse step para realizar o build da imagem que será utilizado no step sequinte. Se ao invés do Dockerfile passessmos uma imagem de um registry Docker, o github iria adicionar uma step de pull no lugar de uma de build.
