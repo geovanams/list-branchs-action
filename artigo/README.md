@@ -1,6 +1,6 @@
 # Entendendo e Criando Docker Container Actions
 
-Actions são tasks individuais que podem ser combinadas para criar jobs e customizar workflows, ajudando a diminuir a quantidade repetitiva de código. Você pode tanto utilizar as actions disponibilizadas no Github Marketplace ou customizar suas próprias actions.
+Actions são tasks individuais que podem ser combinadas para criar jobs e customizar workflows, ajudando a diminuir a quantidade repetitiva de código. Você pode tanto utilizar as actions publicadas no Github Marketplace ou customizar suas próprias actions.
 
 O github Actions disponibiliza 3 tipos de actions customizadas: Javascript, Composite e Docker container. Nesse artigo vamos entender sobre Docker Container Actions, como implementar sua primeira docker container action e testá-la em um GitHub workflow.
 
@@ -138,7 +138,7 @@ Precisamos especificar a imagem que será utilizada para iniciar o container que
       image: 'Dockerfile'
     ```
 
-    Assim como em nosso `action.yml`, quando passamos Dockerfile em `image`, o Github runner construirá  uma imagem a partir desse Dockerfile e iniciará um container que utiliza essa imagem, que executará o código definido em main.py.
+    Assim como em nosso `action.yml`, quando passamos Dockerfile em `image`, o GitHub runner construirá  uma imagem a partir desse Dockerfile e iniciará um container que utiliza essa imagem, que executará o código definido em main.py.
 
 2. Usando uma imagem de um  Docker registry:
 
@@ -192,7 +192,7 @@ Esse workflow possui um único job chamado “List-Branches” que executará o 
 
 Como a actions está em um repositório público, estamos definindo a action usando a seguinte sintaxe: `geovanams/list-docker-action@v1`, onde temos o nome do owner ou organização, em seguida o nome do repositório e então `@v1` representando a versão da action, que corresponde a tag que criamos anteriormente, mas podemos versionar usando commit ID ou até mesmo o nome da branch. Para mais informações sobre como gerenciar versão de actions com tags e releases, visite: [Melhores práticas para gerenciamento de versões](https://docs.github.com/en/actions/creating-actions/about-custom-actions#good-practices-for-release-management)
 
-E para passarmos os parâmetros da action, utilizamos o atributo `with`. Nesse workflow, passamos os parâmetros `owner` e `repos` que você pode substituir os valores pelo owner e nome do repositório do qual deseja listar as branches.
+Para passarmos os parâmetros da action, utilizamos o atributo `with`. Nesse workflow, passamos os parâmetros `owner` e `repos` que você pode substituir os valores pelo owner e nome do repositório do qual deseja listar as branches.
 
 ```yml
 uses: geovanams/actionteste@master
@@ -201,7 +201,7 @@ with:
     repos: 'List-Branch-Docker-Action'
 ```
 
-Após salvar o arquivo no repositório, o github já iniciará o workflow. Na aba **Actions**, podemos ver os logs de execução dos jobs e steps do workflow.
+Após salvar o arquivo no repositório, o GitHub já iniciará o workflow. Na aba **Actions**, podemos ver os logs de execução dos jobs e steps do workflow.
 
 [image]
 
@@ -209,15 +209,47 @@ Após salvar o arquivo no repositório, o github já iniciará o workflow. Na ab
 
 Note que temos 2 steps principais:
 
-**Build geovanams/actionteste@master:** que ao definirmos que nossa action utilizaria a imagem a partir do dockerfile, o github adicionou esse step para realizar o build da imagem que será utilizado no step sequinte. Se ao invés do Dockerfile passessmos uma imagem de um registry Docker, o github iria adicionar uma step de pull no lugar de uma de build.
-
-**List Branch action step:** Esse é o step que de fato chamamos a docker action, que mostra os parâmetros passados para action e o resultado de sua execução, listando então todas as branchs do repositório definido.
+**Build geovanams/list-branches-action@v1:** Como definimos `Dockerfile` em nosso arquivo `action.yml`, o GitHub adicionou esse step de **build** para construir a imagem a partir do arquivo Dockerfile presente no repositório.
 
 [image]
 
-### Estrutra de arquivos do repositório
+Se utilizarmos a imagem de um docker registry, para recuperar a imagem o GitHub adicionaria o step de pull ao invés do de build. Exemplo:
 
-Então ao seguir os passos anteriores, terememos então um repositório estruturado da seguinte forma:
+[image]
+
+**List Branch action step:** Esse é o step que de fato chamamos a docker action, que mostra os parâmetros passados para action e o resultado de sua execução, listando então todas as branches do repositório definido.
+
+[image]
+
+## Criando README
+
+Criar um README, é uma ótima maneira de definir como as pessoas devem utilizar suas actions. No diretório raiz `list-branches-action` criamos o arquivo `README.md`, que contêm as informações necessárias de como utilizar a action que criamos.
+
+```md
+# List Branches Docker Action
+Essa action lista as branches de um repositório público.
+
+## Inputs
+
+## `owner`
+
+**Required** Sua organização ou usuário GitHub.
+
+## `repo`
+
+**Required** nome do repositório que possui as branches a ser listadas.
+
+## Example usage
+
+uses: geovanams/list-branches-action@v1
+with:
+  owner: 'geovanams'
+  repo: 'mypublicrepo'
+```
+
+### Estrutura de arquivos do repositório
+
+Ao concluir os passos anteriores, teremos então um repositório estruturado da seguinte forma:
 
 ```bash
 .
@@ -231,4 +263,4 @@ Então ao seguir os passos anteriores, terememos então um repositório estrutur
 
 ## Conclusões
 
-As docker github actions é uma ótima escolha para criação de actions customizadas que demandam linguagens ou configurações específicas. Você pode criar actions da maneira que desejar e com as linguagens que preferir. E nesse artigo entendemos oque é as docker container actions, quando devemos utilizar e também como criar e testar em um github Workflow.
+As Docker GitHub actions é uma ótima escolha para criação de actions customizadas que demandam linguagens ou configurações específicas. Você pode criar actions da maneira que desejar e com as linguagens que preferir. E nesse artigo, entendemos o que é as Docker container actions, quando devemos utilizar e também como criar e testar em um GitHub Workflow.
