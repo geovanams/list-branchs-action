@@ -1,26 +1,26 @@
 # Entendendo e Criando Docker Container Actions
 
-Actions são tasks individuais que podem ser combinadas para criar jobs e customizar workflows, ajudando a diminuir a quantidade repetitiva de código. Você pode tanto utilizar as actions publicadas no Github Marketplace ou customizar suas próprias actions.
+Actions são tasks individuais que podem ser combinadas para criar jobs e customizar workflows, ajudando a diminuir a quantidade repetitiva de código. Você pode tanto utilizar as actions publicadas no GitHub Marketplace ou criar e  customizar suas próprias actions.
 
-O github Actions disponibiliza 3 tipos de actions customizadas: Javascript, Composite e Docker container. Nesse artigo vamos entender sobre Docker Container Actions, como implementar sua primeira docker container action e testá-la em um GitHub workflow.
+O GitHub Actions permite criar 3 tipos de actions: Javascript, Composite e Docker container. Nesse artigo, vamos entender sobre Docker Container Actions, como implementar sua primeira Docker action e testá-la em um GitHub workflow.
 
 ## Docker Container Action
 
-Docker Containers permite que você crie actions customizadas empacotando o ambiente com o código do GitHub Actions. Dessa forma, quem consumir sua action não precisa se preocupar com as dependências necessárias para executá-la, basta referenciar a action em seu workflow e executar, pois ela já conterá todos os componentes necessários para execução.
+Docker Containers permite que você crie actions customizadas empacotando o ambiente com o código da action. Dessa forma, quem consumir sua action não precisa se preocupar com as dependências necessárias para executá-la, basta referenciar a action em seu workflow e executar, pois ela já conterá todos os componentes necessários para execução.
 
 ### Quando usar Docker container action?
 
-Docker container action é a opção ideal para actions que precisam ser executadas em ambientes com configurações específicas, já que permite personalizar o sistema operacional, as ferramentas, código e dependências sem necessitar adicionar ao runner, basta apenas o runner possuir o Docker e é possível executar no mesmo runner diversas docker actions e cada uma com sua personalização.
+Docker container action é a opção ideal para actions que precisam ser executadas em ambientes com configurações específicas, já que permite personalizar o sistema operacional, as ferramentas, código e dependências sem necessitar adicionar ao runner, basta apenas o runner possuir o Docker e é possível executar no mesmo runner diversas Docker actions e cada uma com sua personalização.
 
-Você também pode utilizar Docker Container quando Javascript actions não for uma opção, seja por querer utilizar uma versão específica do Node, já que Javascript actions utilizam Node(12) ou até mesmo por familiaridade com outras linguagens e querer manter a consistência utilizando a mesma linguagem de suas outras ferramentas, já que com Docker container é possível construir actions utilizando suas linguagens favoritas, seja Python, Go, Bash, Ruby e entre outras.
+Você também pode utilizar Docker Container quando Javascript actions não for uma opção, seja por querer utilizar uma versão específica do Node, já que Javascript actions utilizam Node(12) ou até mesmo por familiaridade com outras linguagens, já que com Docker container é possível construir actions utilizando suas linguagens favoritas, seja Python, Go, Bash, Ruby e entre outras.
 
 ## Criando Docker container actions
 
-Agora vamos entender e executar os passos necessários para criar um Docker container, e teremos então uma docker container action desenvolvida em python que faz uma chamada a API do GitHub para listar branches de um repositório público.
+Agora vamos entender e executar os passos necessários para criar um Docker container, e teremos então uma docker container action desenvolvida em Python que faz uma chamada a API do GitHub para listar branches de um repositório público.
 
 ### Pré requisitos
 
-- **SO Linux e Docker:** Para rodar Docker container actions, os Self-hosted runners precisam utilizar o sistema operacional Linux e ter o Docker instalado, mas você pode utilizar os GitHub-hosted runners, que são gerenciados pelo GitHub e já possuem o Docker instalado, como por exemplo “ubuntu-latest”.
+- **SO Linux e Docker:** Para rodar Docker container actions, os Self-hosted runners precisam utilizar o sistema operacional Linux e ter o Docker instalado, mas você pode utilizar os GitHub-hosted runners, que são gerenciados pelo GitHub e já possuem o Docker, como por exemplo `ubuntu-latest`.
 
 - **Repositório:** Antes de iniciar, é necessário criar um repositório GitHub.
 
@@ -57,7 +57,7 @@ Esse script faz uma chamada a API do GitHub `https://api.github.com/repos/OWNER/
 
 Para fazer essa chamada, inicialmente importamos os módulos necessárias. Sendo `requests`, que possibilita realizarmos requests http, `json` para trabalharmos com os dados JSON e `sys` para manipularmos os parâmetros que são passados na execução do programa.
 
-Onde fazemos a chamada da request, substituímos os argumentos `OWNER` e `REPO` por `sys.argv[1]` e `sys.argv[2]` correspondente, pois esses parâmetros serão atualizados com os valores que serão passados como argumento para o container.
+Onde fazemos a chamada da request, substituímos os argumentos `OWNER` e `REPO` por `sys.argv[1]` e `sys.argv[2]` correspondente, pois esses parâmetros serão atualizados com os valores passados como argumento para o container.
 
 Por fim, convertemos o json da resposta da API em um objeto Python Dictionary, para conseguirmos percorrer esse objeto e trazer apenas o nome das branches.
 
@@ -138,7 +138,7 @@ Precisamos especificar a imagem que será utilizada para iniciar o container que
       image: 'Dockerfile'
     ```
 
-    Assim como em nosso `action.yml`, quando passamos Dockerfile em `image`, o GitHub runner construirá  uma imagem a partir desse Dockerfile e iniciará um container que utiliza essa imagem, que executará o código definido em main.py.
+    Assim como em nosso `action.yml`, quando passamos `Dockerfile` em `image`, o GitHub runner construirá  uma imagem a partir desse Dockerfile e iniciará um container que executará o código definido em main.py.
 
 2. Usando uma imagem de um  Docker registry:
 
@@ -148,13 +148,13 @@ Precisamos especificar a imagem que será utilizada para iniciar o container que
       image: 'docker://ubuntu:20.04
     ```
 
-    Ao utilizar uma imagem de um docker registry, o Github runner não precisa construí-la e apenas realiza o pull dessa imagem, buscando ela e executando-a para inciar o container contendo o código da action.
+    Ao utilizar uma imagem de um Docker registry, o Github runner não precisa construí-la e apenas realiza o pull dessa imagem, buscando ela e executando-a para inciar o container contendo o código da action.
 
 > Devido a latência que o runner tem de construir e recuperar a imagem, as Docker Actions costumam ser mais lentas que Javascript actions.
 
 ### Adicionando tag e realizando push da action para o repositório do github
 
-Após a criação dos arquivos  `main.py`, `Dockerfile` e `action.yml`, podemos fazer o commit, realizar o push para nosso repositório do github e adicionar uma annotated tag, que será utilizada posteriormente para identificar a versão da nossa action. No diretório local `list-branch-action`, execute:
+Após a criação dos arquivos  `main.py`, `Dockerfile` e `action.yml`, podemos fazer o commit, realizar o push para nosso repositório do GitHub e adicionar uma annotated tag, que será utilizada posteriormente para identificar a versão da nossa action. No diretório local `list-branch-action`, execute:
 
 ```bash
 git add .
@@ -185,14 +185,14 @@ jobs:
         uses: geovanams/list-branches-action@main
         with:
           owner: 'geovanams'
-          repos: 'list-branchs-action'
+          repos: 'list-branches-action'
 ```
 
 Esse workflow possui um único job chamado “List-Branches” que executará o step “List Branches action step”. Nesse step em `uses` chamamos a action que criamos anteriormente.
 
 Como a actions está em um repositório público, estamos definindo a action usando a seguinte sintaxe: `geovanams/list-docker-action@v1`, onde temos o nome do owner ou organização, em seguida o nome do repositório e então `@v1` representando a versão da action, que corresponde a tag que criamos anteriormente, mas podemos versionar usando commit ID ou até mesmo o nome da branch. Para mais informações sobre como gerenciar versão de actions com tags e releases, visite: [Melhores práticas para gerenciamento de versões](https://docs.github.com/en/actions/creating-actions/about-custom-actions#good-practices-for-release-management)
 
-Para passarmos os parâmetros da action, utilizamos o atributo `with`. Nesse workflow, passamos os parâmetros `owner` e `repos` que você pode substituir os valores pelo owner e nome do repositório do qual deseja listar as branches.
+Para passarmos os parâmetros da action, utilizamos o atributo `with`. Nesse workflow, passamos os parâmetros `owner` e `repo` que você pode substituir os valores pelo owner e nome do repositório do qual deseja listar as branches.
 
 ```yml
 uses: geovanams/actionteste@master
@@ -213,17 +213,17 @@ Note que temos 2 steps principais:
 
 [image]
 
-Se utilizarmos a imagem de um docker registry, para recuperar a imagem o GitHub adicionaria o step de pull ao invés do de build. Exemplo:
+Como dito anteriormente, se utilizarmos a imagem de um docker registry, para recuperar a imagem o GitHub adicionaria o step de pull ao invés do de build. Exemplo:
 
 [image]
 
-**List Branch action step:** Esse é o step que de fato chamamos a docker action, que mostra os parâmetros passados para action e o resultado de sua execução, listando então todas as branches do repositório definido.
+**List Branch action step:** Esse é o step que de fato chamamos a docker action, ele mostra os parâmetros passados para action e o resultado de sua execução, listando então todas as branches do repositório definido.
 
 [image]
 
 ## Criando README
 
-Criar um README, é uma ótima maneira de definir como as pessoas devem utilizar suas actions. No diretório raiz `list-branches-action` criamos o arquivo `README.md`, que contêm as informações necessárias de como utilizar a action que criamos.
+Criar um README é uma ótima maneira de definir como as pessoas devem utilizar suas actions. No diretório raiz `list-branches-action` criamos o arquivo `README.md`, que contêm as informações necessárias de como utilizar a action que criamos.
 
 ```md
 # List Branches Docker Action
@@ -233,7 +233,7 @@ Essa action lista as branches de um repositório público.
 
 ## `owner`
 
-**Required** Sua organização ou usuário GitHub.
+**Required** Sua organização ou usuário GitHub que possui o repositório do qual deseja listar.
 
 ## `repo`
 
