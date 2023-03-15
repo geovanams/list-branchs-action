@@ -1,12 +1,12 @@
 # Entendendo e Criando Docker Container Actions
 
-Actions são tasks individuais que podem ser combinadas para criar jobs e customizar workflows, ajudando a diminuir a quantidade repetitiva de código. Você pode tanto utilizar as actions publicadas no GitHub Marketplace ou criar e  customizar suas próprias actions.
+Actions são tasks individuais que podem ser combinadas para criar jobs e customizar workflows, ajudando a diminuir a quantidade repetitiva de código. Você pode utilizar as actions publicadas no GitHub Marketplace ou criar e customizar suas próprias actions.
 
-O GitHub Actions permite criar 3 tipos de actions: Javascript, Composite e Docker container. Nesse artigo, vamos entender sobre Docker Container Actions, como implementar sua primeira Docker action e testá-la em um GitHub workflow.
+O GitHub Actions permite criar 3 tipos de actions customizadas: Javascript, Composite e Docker container. Nesse artigo, vamos entender sobre Docker Container Actions, como implementar sua primeira Docker action e testá-la em um GitHub workflow.
 
 ## Docker Container Action
 
-Docker Containers permite que você crie actions customizadas empacotando o ambiente com o código da action. Dessa forma, quem consumir sua action não precisa se preocupar com as dependências necessárias para executá-la, basta referenciar a action em seu workflow e executar, pois ela já conterá todos os componentes necessários para execução.
+Docker Container permite que você crie actions customizadas empacotando o ambiente com o código da action. Dessa forma, quem consumir sua action não precisa se preocupar com as dependências necessárias para executá-la, basta referenciar a action em seu workflow e executar, pois ela já conterá todos os componentes necessários para execução.
 
 ### Quando usar Docker container action?
 
@@ -36,7 +36,7 @@ Agora vamos entender e executar os passos necessários para criar um Docker cont
 
 ### Implementando código da action
 
-No diretório raiz `list-branches-docker-action`, vamos criar o arquivo `main.py` que conterá o código que a action irá executar:
+No diretório raiz `list-branches-docker-action`, vamos criar o arquivo `main.py` que conterá o código escrito em python que a action irá executar:
 
 ```python
 # Código da action
@@ -59,11 +59,11 @@ Para fazer essa chamada, inicialmente importamos os módulos necessárias. Sendo
 
 Onde fazemos a chamada da request, substituímos os argumentos `OWNER` e `REPO` por `sys.argv[1]` e `sys.argv[2]` correspondente, pois esses parâmetros serão atualizados com os valores passados como argumento para o container.
 
-Por fim, convertemos o json da resposta da API em um objeto Python Dictionary, para conseguirmos percorrer esse objeto e trazer apenas o nome das branches.
+Por fim, convertemos o json da resposta da API em um objeto Python Dictionary para conseguirmos percorrer esse objeto e trazer apenas o nome das branches.
 
 ### Criando o Dockerfile
 
-Com o código da action definido, seguindo a sintaxe e os padrões descritos em [Suporte do arquivo Docker para GitHub Actions](https://docs.github.com/pt/actions/creating-actions/dockerfile-support-for-github-actions)criamos o arquivo Dockerfile que será utilizado para criar a imagem que conterá o código da action.
+Com o código da action definido, seguindo a sintaxe e os padrões descritos em [Suporte do arquivo Docker para GitHub Actions](https://docs.github.com/pt/actions/creating-actions/dockerfile-support-for-github-actions) criamos o arquivo `Dockerfile` que será utilizado para criar a imagem que conterá o código da action.
 
 ```dockerfile
 #Imagem de container que executa o código da action
@@ -107,7 +107,7 @@ No `action.yml` acima, setamos o nome, descrição da action e também o ícone 
 
 #### Passando Inputs para o container
 
-Para passar os argumentos para o Docker container, precisamos declarar os `inputs` e então passá-los como argumento usando `args`. Em nosso arquivo temos os inputs obrigatórios `owner` e `repo`, que são passados  como argumentos ``inputs.owner``  e `inputs.repo`, pois serão utilizados para atualizar os parâmetros `sys.args[1]` e `sys.argv[2]` definidos em nosso arquivo `main.py`.
+Para passar os argumentos para o Docker container, precisamos declarar os `inputs` e então passá-los como argumento usando `args`. Em nosso arquivo, temos os inputs obrigatórios `owner` e `repo`, que são passados  como argumentos ``inputs.owner``  e `inputs.repo`, pois serão utilizados para atualizar os parâmetros `sys.args[1]` e `sys.argv[2]` definidos em nosso arquivo `main.py`.
 
 ```yml
 inputs:
@@ -154,7 +154,7 @@ Precisamos especificar a imagem que será utilizada para iniciar o container que
 
 ### Adicionando tag e realizando push da action para o repositório do github
 
-Após a criação dos arquivos  `main.py`, `Dockerfile` e `action.yml`, podemos fazer o commit, realizar o push para nosso repositório do GitHub e adicionar uma annotated tag, que será utilizada posteriormente para identificar a versão da nossa action. No diretório local `list-branches-docker-action`, execute:
+Após a criação dos arquivos `main.py`, `Dockerfile` e `action.yml`, podemos fazer o commit, realizar o push para nosso repositório do GitHub e adicionar uma annotated tag, que será utilizada posteriormente para identificar a versão da nossa action. No diretório local `list-branches-docker-action`, execute:
 
 ```bash
 git add .
@@ -258,6 +258,14 @@ Ao concluir os passos anteriores, teremos então um repositório estruturado da 
 └── main.py
 ```
 
+Você pode baixar essa estrutura com o código completo da docker action do repositório GitHub [List-Branches-Docker-Action](https://docs.github.com/en/actions/creating-actions/about-custom-actions).
+
 ## Conclusões
 
-As Docker GitHub actions é uma ótima escolha para criação de actions customizadas que demandam linguagens ou configurações específicas. Você pode criar actions da maneira que desejar e com as linguagens que preferir. E nesse artigo, entendemos o que é as Docker container actions, quando devemos utilizar e também como criar e testar em um GitHub Workflow.
+GitHub Docker action é uma ótima escolha para criação de actions customizadas que demandam linguagens ou configurações específicas. Você pode criar actions da maneira que desejar e com as linguagens que preferir. E nesse artigo, entendemos o que é as Docker container actions, quando devemos utilizar e também como criar e testar em um GitHub Workflow.
+
+## Referências
+
+1. [Sobre ações personalizadas | GitHub Docs](https://docs.github.com/en/actions/creating-actions/about-custom-actions)
+2. [Criando Docker container action | GitHub Docs](https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action)
+3. [Entendendo GitHub Actions | GitHub Docs](https://docs.github.com/pt/actions/learn-github-actions/understanding-github-actions)
