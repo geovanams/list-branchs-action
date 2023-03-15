@@ -24,19 +24,19 @@ Agora vamos entender e executar os passos necessários para criar um Docker cont
 
 - **Repositório:** Antes de iniciar, é necessário criar um repositório GitHub.
 
-    1. **Crie um novo repositório GitHub:**  Estarei utilizando ``list-branches-action`` como nome do repositório, mas você pode criar com o nome que preferir. Para informações de criação de repositórios, consulte: [Criando um novo repositório](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository).
+    1. **Crie um novo repositório GitHub:**  Estarei utilizando ``list-branches-docker-action`` como nome do repositório, mas você pode criar com o nome que preferir. Para informações de criação de repositórios, consulte: [Criando um novo repositório](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository).
 
     2. **Clone o repositório:** após criar o repositório, clone em sua máquina. Saiba mais em: [Clonando repositório](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
 
     3. **Mude o diretório:** Em seu terminal, execute o comando a seguir para mudar o diretório para o novo repositório:
 
     ```bash
-        cd list-branches-action
+        cd list-branches-docker-action
     ```
 
 ### Implementando código da action
 
-No diretório raiz `list-branches-action`, vamos criar o arquivo `main.py` que conterá o código que a action irá executar:
+No diretório raiz `list-branches-docker-action`, vamos criar o arquivo `main.py` que conterá o código que a action irá executar:
 
 ```python
 # Código da action
@@ -82,17 +82,17 @@ Estamos utilizando `python:3.8-alpine` como base para nossa imagem, pois já inc
 
 ### Criando arquivo de metadados da action
 
-No diretório “list-branches-action”, criamos um arquivo `action.yml` que contém toda a definição da action, como descrição, inputs e outputs.
+No diretório `list-branches-docker-action`, criamos um arquivo `action.yml` que contém toda a definição da action, como descrição, inputs e outputs.
 
 ```yml
 #action.yml
-name: 'List Branches Action'
+name: 'List Branches Docker Action'
 description: 'Lista branches de um repositório público'
 inputs:
   owner: # id do input
     description: 'Sua organização ou usuário github'
     required: true
-  repos: # id do input
+  repo: # id do input
     description: 'Nome do repositório' # que possui as branches a serem listadas
     required: true
 runs:
@@ -114,7 +114,7 @@ inputs:
   owner: # id do input
     description: 'sua organização ou usuário GitHub'
     required: true
-  repos: # id do input
+  repo: # id do input
     description: 'nome do repositório' # que possui as branches a serem listadas
     required: true
 ```
@@ -145,7 +145,7 @@ Precisamos especificar a imagem que será utilizada para iniciar o container que
     ```yml
     runs: 
       using: 'docker'
-      image: 'docker://ubuntu:20.04
+      image: 'docker://geovana10/list-branches-docker-action:v1'
     ```
 
     Ao utilizar uma imagem de um Docker registry, o Github runner não precisa construí-la e apenas realiza o pull dessa imagem, buscando ela e executando-a para inciar o container contendo o código da action.
@@ -154,14 +154,14 @@ Precisamos especificar a imagem que será utilizada para iniciar o container que
 
 ### Adicionando tag e realizando push da action para o repositório do github
 
-Após a criação dos arquivos  `main.py`, `Dockerfile` e `action.yml`, podemos fazer o commit, realizar o push para nosso repositório do GitHub e adicionar uma annotated tag, que será utilizada posteriormente para identificar a versão da nossa action. No diretório local `list-branch-action`, execute:
+Após a criação dos arquivos  `main.py`, `Dockerfile` e `action.yml`, podemos fazer o commit, realizar o push para nosso repositório do GitHub e adicionar uma annotated tag, que será utilizada posteriormente para identificar a versão da nossa action. No diretório local `list-branches-docker-action`, execute:
 
 ```bash
 git add .
 
 git commit -m “my actions file”
 
-git tag -a v1 -m " first version list branch tag"
+git tag -a v1 -m " Primeira versão list branches tag"
 
 git push -–follow-tags
 ```
@@ -182,23 +182,23 @@ jobs:
     steps:
       - name: Listar Branches action step
         id: list
-        uses: geovanams/list-branches-action@main
+        uses: geovanams/list-branches-docker-action@v1
         with:
           owner: 'geovanams'
-          repos: 'list-branches-action'
+          repo: 'publicrepo'
 ```
 
 Esse workflow possui um único job chamado “List-Branches” que executará o step “List Branches action step”. Nesse step em `uses` chamamos a action que criamos anteriormente.
 
-Como a actions está em um repositório público, estamos definindo a action usando a seguinte sintaxe: `geovanams/list-docker-action@v1`, onde temos o nome do owner ou organização, em seguida o nome do repositório e então `@v1` representando a versão da action, que corresponde a tag que criamos anteriormente, mas podemos versionar usando commit ID ou até mesmo o nome da branch. Para mais informações sobre como gerenciar versão de actions com tags e releases, visite: [Melhores práticas para gerenciamento de versões](https://docs.github.com/en/actions/creating-actions/about-custom-actions#good-practices-for-release-management)
+Como a actions está em um repositório público, estamos definindo a action usando a seguinte sintaxe: `geovanams/list-docker-action@v1`, que você pode substituir com as suas informações, onde temos o nome do owner ou organização, em seguida o nome do repositório e então `@v1` representando a versão da action, que corresponde a tag que criamos anteriormente, mas podemos versionar usando commit ID ou até mesmo o nome da branch. Para mais informações sobre como gerenciar versão de actions com tags e releases, visite: [Melhores práticas para gerenciamento de versões](https://docs.github.com/en/actions/creating-actions/about-custom-actions#good-practices-for-release-management)
 
 Para passarmos os parâmetros da action, utilizamos o atributo `with`. Nesse workflow, passamos os parâmetros `owner` e `repo` que você pode substituir os valores pelo owner e nome do repositório do qual deseja listar as branches.
 
 ```yml
-uses: geovanams/actionteste@master
+uses: geovanams/list-branches-docker-action@v1
 with:
     owner: 'geovanams'
-    repos: 'List-Branch-Docker-Action'
+    repo: 'publicrepo'
 ```
 
 Após salvar o arquivo no repositório, o GitHub já iniciará o workflow. Na aba **Actions**, podemos ver os logs de execução dos jobs e steps do workflow.
@@ -209,11 +209,11 @@ Após salvar o arquivo no repositório, o GitHub já iniciará o workflow. Na ab
 
 Note que temos 2 steps principais:
 
-**Build geovanams/list-branches-action@v1:** Como definimos `Dockerfile` em nosso arquivo `action.yml`, o GitHub adicionou esse step de **build** para construir a imagem a partir do arquivo Dockerfile presente no repositório.
+**Build geovanams/list-branches-docker-action@v1:** Como definimos `Dockerfile` em nosso arquivo `action.yml`, o GitHub adicionou esse step de **build** para construir a imagem a partir do arquivo Dockerfile presente no repositório.
 
 [image]
 
-Como dito anteriormente, se utilizarmos a imagem de um docker registry, para recuperar a imagem o GitHub adicionaria o step de pull ao invés do de build. Exemplo:
+Como dito anteriormente, se utilizarmos a imagem de um Docker registry, para recuperar a imagem o GitHub adicionaria o step de pull ao invés do de build. Exemplo:
 
 [image]
 
@@ -223,7 +223,7 @@ Como dito anteriormente, se utilizarmos a imagem de um docker registry, para rec
 
 ## Criando README
 
-Criar um README é uma ótima maneira de definir como as pessoas devem utilizar suas actions. No diretório raiz `list-branches-action` criamos o arquivo `README.md`, que contêm as informações necessárias de como utilizar a action que criamos.
+Criar um README é uma ótima maneira de definir como as pessoas devem utilizar suas actions. No diretório raiz `list-branches-docker-action` criamos o arquivo `README.md`, que contêm as informações necessárias de como utilizar a action que criamos.
 
 ```md
 # List Branches Docker Action
@@ -241,10 +241,10 @@ Essa action lista as branches de um repositório público.
 
 ## Example usage
 
-uses: geovanams/list-branches-action@v1
+uses: geovanams/list-branches-docker-action@v1
 with:
   owner: 'geovanams'
-  repo: 'mypublicrepo'
+  repo: 'public-repo'
 ```
 
 ### Estrutura de arquivos do repositório
