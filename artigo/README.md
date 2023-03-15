@@ -159,18 +159,18 @@ Após a criação dos arquivos  `main.py`, `Dockerfile` e `action.yml`, podemos 
 ```bash
 git add .
 
-git commit -m “my actions file”
+git commit -m "my actions file"
 
-git tag -a v1 -m " Primeira versão list branches tag"
+git tag -a v1 -m "Primeira versão list branches tag"
 
-git push -–follow-tags
+git push --follow-tags
 ```
 
 ### Testando a Docker container action em um GitHub Workflow
 
 Com a action disponível em nosso repositório, já podemos testá-la em um GitHub workflow. As actions públicas podem ser utilizadas em qualquer repositório, mas podemos ter actions em repositório privado onde podemos controlar o acesso e também podemos publicá-las no Github Marketplace. Para mais informações, veja [Publicar actions no GitHub Marketplace](https://docs.github.com/pt/actions/creating-actions/publishing-actions-in-github-marketplace)
 
-Para usarmos a action, precisamos ter um arquivo .yml no diretório `github/workflows`, então nesse diretório criamos o arquivo `main.yml`, que é executado sempre que for realizado um push na branch master do repositório.
+Para usarmos a action, precisamos ter um arquivo .yml no diretório `.github/workflows`, então nesse diretório criamos o arquivo `main.yml`, que é executado sempre que for realizado um push na branch master do repositório.
 
 ```yml
 on: [push]
