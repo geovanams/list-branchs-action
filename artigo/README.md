@@ -24,14 +24,14 @@ Agora vamos entender e executar os passos necessários para criar um Docker cont
 
 - **Repositório:** Antes de iniciar, é necessário criar um repositório GitHub.
 
-    1. **Crie um novo repositório GitHub:**  Estarei utilizando ``list-branches-docker-action`` como nome do repositório, mas você pode criar com o nome que preferir. Para informações de criação de repositórios, consulte: [Criando um novo repositório](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository).
+  - **Crie um novo repositório GitHub:**  Estarei utilizando ``list-branches-docker-action`` como nome do repositório, mas você pode criar com o nome que preferir. Para informações de criação de repositórios, consulte: [Criando um novo repositório](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository).
 
-    2. **Clone o repositório:** após criar o repositório, clone em sua máquina. Saiba mais em: [Clonando repositório](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
+  - **Clone o repositório:** após criar o repositório, clone em sua máquina. Saiba mais em: [Clonando repositório](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
 
-    3. **Mude o diretório:** Em seu terminal, execute o comando a seguir para mudar o diretório para o novo repositório:
+  - **Mude o diretório:** Em seu terminal, execute o comando a seguir para mudar o diretório para o novo repositório:
 
-    ```bash
-        cd list-branches-docker-action
+    ```bash 
+    cd list-branches-docker-action
     ```
 
 ### Implementando código da action
@@ -266,6 +266,6 @@ GitHub Docker action é uma ótima escolha para criação de actions customizada
 
 ## Referências
 
-1. [Sobre ações personalizadas | GitHub Docs](https://docs.github.com/en/actions/creating-actions/about-custom-actions)
+1. [Sobre actions personalizadas | GitHub Docs](https://docs.github.com/en/actions/creating-actions/about-custom-actions)
 2. [Criando Docker container action | GitHub Docs](https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action)
 3. [Entendendo GitHub Actions | GitHub Docs](https://docs.github.com/pt/actions/learn-github-actions/understanding-github-actions)
