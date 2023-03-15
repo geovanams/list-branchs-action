@@ -158,11 +158,8 @@ Após a criação dos arquivos  `main.py`, `Dockerfile` e `action.yml`, podemos 
 
 ```bash
 git add .
-
 git commit -m "my actions file"
-
 git tag -a v1 -m "Primeira versão list branches tag"
-
 git push --follow-tags
 ```
 
