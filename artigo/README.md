@@ -182,7 +182,7 @@ jobs:
         uses: geovanams/list-branches-docker-action@v1
         with:
           owner: 'geovanams'
-          repo: 'publicrepo'
+          repo: 'public-repo'
 ```
 
 Esse workflow possui um único job chamado “List-Branches” que executará o step “List Branches action step”. Nesse step em `uses` chamamos a action que criamos anteriormente.
@@ -195,7 +195,7 @@ Para passarmos os parâmetros da action, utilizamos o atributo `with`. Nesse wor
 uses: geovanams/list-branches-docker-action@v1
 with:
     owner: 'geovanams'
-    repo: 'publicrepo'
+    repo: 'public-repo'
 ```
 
 Após salvar o arquivo no repositório, o GitHub já iniciará o workflow. Na aba **Actions**, podemos ver os logs de execução dos jobs e steps do workflow.
