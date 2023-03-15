@@ -61,7 +61,7 @@ Onde fazemos a chamada da request, substituímos os argumentos `OWNER` e `REPO` 
 
 Por fim, convertemos o json da resposta da API em um objeto Python Dictionary para conseguirmos percorrer esse objeto e trazer apenas o nome das branches.
 
-### Criando o Dockerfile
+### Criando Dockerfile
 
 Com o código da action definido, seguindo a sintaxe e os padrões descritos em [Suporte do arquivo Docker para GitHub Actions](https://docs.github.com/pt/actions/creating-actions/dockerfile-support-for-github-actions) criamos o arquivo `Dockerfile` que será utilizado para criar a imagem que conterá o código da action.
 
