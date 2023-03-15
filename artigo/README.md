@@ -214,7 +214,7 @@ Como dito anteriormente, se utilizarmos a imagem de um Docker registry, para rec
 
 [image]
 
-**List Branch action step:** Esse é o step que de fato chamamos a docker action, ele mostra os parâmetros passados para action e o resultado de sua execução, listando então todas as branches do repositório definido.
+**Listar Branches action:** Esse é o step que de fato chamamos a docker action, ele mostra os parâmetros passados para action e o resultado de sua execução, listando então todas as branches do repositório definido.
 
 [image]
 
