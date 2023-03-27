@@ -1,6 +1,6 @@
 # Entendendo e Criando Docker Container Actions
 
-Actions são tasks individuais que podem ser combinadas para criar jobs e customizar workflows, ajudando a diminuir a quantidade repetitiva de código. Você pode utilizar as actions publicadas no GitHub Marketplace ou criar e customizar suas próprias actions.
+Actions são tasks individuais que podem ser combinadas para criar jobs e customizar fluxos de trabalho, ajudando a diminuir a quantidade repetitiva de código. Você pode utilizar as actions publicadas no GitHub Marketplace ou criar e customizar suas próprias actions.
 
 O GitHub Actions permite criar 3 tipos de actions customizadas: Javascript, Composite e Docker container. Nesse artigo, vamos entender sobre Docker Container Actions, como implementar sua primeira Docker action e testá-la em um GitHub workflow.
 
